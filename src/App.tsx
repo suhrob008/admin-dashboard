@@ -1,8 +1,67 @@
-function App() {
+import { createBrowserRouter, RouterProvider, Outlet } from "react-router-dom";
+import Home from "./page/home/Home";
+import Users from "./page/users/users";
+import Products from "./page/products/products";
+import Navbar from "./components/navbar/Navbar";
+import Footer from "./components/footer/footer";
+import Menu from "./components/menu/menu";
+import Login from "./page/login/Login";
+import "./styles/global.scss";
+import User from "./page/user/User";
+import Product from "./page/product/Product";
 
-  return (
-    <div>Hello World</div>
-  )
-}
+const App = () => {
+  const Layout = () => {
+    return (
+      <div className="main">
+        <Navbar />
+        <div className="container">
+          <div className="menuContainer">
+            <Menu />
+          </div>
+          <div className="contentContainer">
+            <Outlet />
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
+  };
 
-export default App
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Layout />,
+      children: [
+        {
+          path: "/",
+          element: <Home />,
+        },
+        {
+          path: "/users",
+          element: <Users />,
+        },
+        {
+          path: "/products",
+          element: <Products />,
+        },
+        {
+          path: "/users/:id",
+          element: <User />,
+        },
+        {
+          path: "/products/:id",
+          element: <Product />,
+        },
+      ],
+    },
+    {
+      path: "/login",
+      element: <Login />,
+    },
+  ]);
+
+  return <RouterProvider router={router} />;
+};
+
+export default App;
